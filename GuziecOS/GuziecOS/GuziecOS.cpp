@@ -1,9 +1,9 @@
 //Leszek Stencel
 
-/* Za ca³oœæ projektu odpowiadaj¹:
+/* Za calosc projektu odpowiadaja:
 Leszek Stencel
-Piotr Siwiñski
-Tomasz Braczyñski
+Piotr Siwinski
+Tomasz Braczynski
 Mateusz Korolow
 Szymon Nowak
 Daniel Hildebrand*/
@@ -101,7 +101,7 @@ public:
 		cout << "PC: \t" << licznikRozkazow<< endl;
 	}
 
-	string pobierzRozkaz()  //Pobiera rozkaz z pamiêci RAM
+	string pobierzRozkaz()  //Pobiera rozkaz z pamiÃªci RAM
 	{
 		if (Runqueue.curr->nazwa == "IDLE" || Runqueue.curr->nazwa == "INIT")
 			return ""; // return string();
@@ -201,7 +201,7 @@ public:
 					licznikRozkazow = rejestrC;
 				}
 			}
-			else if (rozkaz == "PT") // PT - PÊTLA
+			else if (rozkaz == "PT") // PT - PÃŠTLA
 			{
 				rejestrC = licznikRozkazow;
 			}
@@ -260,12 +260,12 @@ public:
 			{
 				pobierzRejestry();
 				Runqueue.curr->credit--;
-				Runqueue.setTimeWaiting(); //Zwiêksza o 1 czas oczekiwania w Runqueue
+				Runqueue.setTimeWaiting(); //ZwiÃªksza o 1 czas oczekiwania w Runqueue
 				wykonajRozkaz();
 				wyswietlStan();
 				wyslijRejestry();
 			}
-			if (Runqueue.curr != nullptr && Runqueue.curr->credit==0) //Je¿eli po wykonaniu rozkazu kredyt spad³ do 0 to oddaje procesor
+			if (Runqueue.curr != nullptr && Runqueue.curr->credit==0) //JeÂ¿eli po wykonaniu rozkazu kredyt spadÂ³ do 0 to oddaje procesor
 			{
 				cout << "Proces wyczerpal swoj kredyt i oddaje procesor" << endl;
 				Runqueue.sched_yield();
@@ -288,12 +288,12 @@ public:
 			
 			Runqueue.add_to_runqueue(parent->next_task);
 		}
-		else if (rozkaz.substr(0, 2) == "WP") //PROCES MACIERZYSTY WYWO£UJE METODÊ WAITPID - MACIERZYSTY CZEKA NA DZIECKO
+		else if (rozkaz.substr(0, 2) == "WP") //PROCES MACIERZYSTY WYWOÂ£UJE METODÃŠ WAITPID - MACIERZYSTY CZEKA NA DZIECKO
 		{
 			string nazwaProcesu = rozkaz.substr(3, 3);
-			//PRZESZUKUJEMY LISTÊ CYKLICZN¥ - ZNAJDUJEMY PO NAZWIE 
+			//PRZESZUKUJEMY LISTÃŠ CYKLICZNÂ¥ - ZNAJDUJEMY PO NAZWIE 
 			auto dziecko = find_by_name(nazwaProcesu);
-			//PRZEZ WSKANIK POTOMNEGO WYWO£UJEMY WAITPID NA MACIERZYSTYM
+			//PRZEZ WSKAÂNIK POTOMNEGO WYWOÂ£UJEMY WAITPID NA MACIERZYSTYM
 			if (dziecko)
 			{
 				dziecko->pptr->waitpid(dziecko->PID);
@@ -317,7 +317,7 @@ public:
 				dysk.stworz_plik(nazwaPliku, sciezka);
 			}
 		}
-		else if (rozkaz.substr(0, 2) == "ZP")// Za³aduj plik danymi
+		else if (rozkaz.substr(0, 2) == "ZP")// ZaÂ³aduj plik danymi
 		{
 			string nazwaPliku, sciezka;
 			nazwaPliku = rozkaz.substr(3, 3);
@@ -329,7 +329,7 @@ public:
 			string nazwaFolderu = rozkaz.substr(3, 3);
 			dysk.stworz_folder(nazwaFolderu);
 		}
-		else if (rozkaz.substr(0, 2) == "KP") //JAWNE WYWO£ANIE kill(nazwa_procesu)
+		else if (rozkaz.substr(0, 2) == "KP") //JAWNE WYWOÂ£ANIE kill(nazwa_procesu)
 		{
 			string nazwaProcesu = rozkaz.substr(3, 3);
 			auto wsk = find_by_name(nazwaProcesu);
@@ -359,15 +359,15 @@ public:
 			nazwaPliku = rozkaz.substr(3, 3);
 			dysk.otworz_plik(nazwaPliku);
 		}
-		else if (rozkaz.substr(0, 2) == "PG") // Poka¿ wszystkie gotowe
+		else if (rozkaz.substr(0, 2) == "PG") // PokaÂ¿ wszystkie gotowe
 		{
 			Runqueue.showAllReady();
 		}
-		else if (rozkaz.substr(0, 2) == "PA") // Poka¿ wszystkie w kolejce active
+		else if (rozkaz.substr(0, 2) == "PA") // PokaÂ¿ wszystkie w kolejce active
 		{
 			Runqueue.showActive();
 		}
-		else if (rozkaz.substr(0, 2) == "PE") // Poka¿ wszystkie w kolejce expired
+		else if (rozkaz.substr(0, 2) == "PE") // PokaÂ¿ wszystkie w kolejce expired
 		{
 			Runqueue.showExpired();
 		}
@@ -378,12 +378,12 @@ public:
 				inc = (wartosc[0] - '0');
 			Runqueue.set_priority(inc);
 		}
-		else if (rozkaz.substr(0, 2) == "ZR") // ZnajdŸ w Runqueue
+		else if (rozkaz.substr(0, 2) == "ZR") // ZnajdÅ¸ w Runqueue
 		{
 			string nazwaProcesu = rozkaz.substr(3, 4);
 			Runqueue.findProcessInRunqueue(nazwaProcesu);
 		}
-		else if (rozkaz.substr(0, 2) == "PC") // Poka¿ Current
+		else if (rozkaz.substr(0, 2) == "PC") // PokaÂ¿ Current
 		{
 			if (Runqueue.curr != nullptr)
 				cout << "Aktualny proces to: " << Runqueue.curr->nazwa << " PID: " << Runqueue.curr->PID << " PPID: " << Runqueue.curr->PPID << " Priorytet: " << Runqueue.curr->priority << " Kredyt: " << Runqueue.curr->credit << " Stan: " << Runqueue.curr->state << endl;
@@ -394,7 +394,7 @@ public:
 		{
 			dysk.wyswietl_pliki_i_foldery();
 		}
-		else if (rozkaz.substr(0, 2) == "PP") //Poka¿ Procesy
+		else if (rozkaz.substr(0, 2) == "PP") //PokaÂ¿ Procesy
 		{
 			string nazwaProcesu = rozkaz.substr(3, 4);
 			showProcess(nazwaProcesu);
