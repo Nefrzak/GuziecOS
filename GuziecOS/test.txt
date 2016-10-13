@@ -1,0 +1,5 @@
+MV B 10 
+AD B    
+IC A    
+MV B 12 
+AD B    
